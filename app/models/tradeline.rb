@@ -4,6 +4,6 @@ class Tradeline < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def outstanding_balance
-    amount - deposits.sum(&:amount)
+    amount - deposits.sum(:amount)
   end
 end

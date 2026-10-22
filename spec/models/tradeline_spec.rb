@@ -44,6 +44,12 @@ RSpec.describe Tradeline, type: :model do
       expect(tradeline.outstanding_balance).to eq(BigDecimal('649.65'))
     end
 
+    it 'ignores unsaved deposits' do
+      tradeline.deposits.build(amount: 100)
+
+      expect(tradeline.outstanding_balance).to eq(1000)
+    end
+
     it 'ignores deposits on other tradelines' do
       FactoryBot.create :deposit, amount: 300
 
