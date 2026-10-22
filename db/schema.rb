@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_13_043029) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_22_013710) do
+  create_table "deposits", force: :cascade do |t|
+    t.integer "tradeline_id", null: false
+    t.date "deposit_date", null: false
+    t.decimal "amount", precision: 8, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tradeline_id"], name: "index_deposits_on_tradeline_id"
+    t.check_constraint "amount > 0", name: "deposits_amount_positive"
+  end
+
   create_table "tradelines", force: :cascade do |t|
     t.string "name", null: false
     t.decimal "amount", precision: 8, scale: 2
@@ -18,4 +28,5 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_13_043029) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "deposits", "tradelines"
 end
